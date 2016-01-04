@@ -1,0 +1,86 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+def ANDROIN_ANNOTATIONS_VERSION = '3.3.2'
+def SUPPORT_LIB_VERSION = '23.1.1'
+def APP_ID = 'tanya.arthur.selectionhelper'
+def SDK_VERSION = 23
+def BUILD_TOOLS_VERSION = '23.0.2'
+def VERSION_CODE = 1
+def VERSION_NAME = '1.0'
+
+android {
+    compileSdkVersion SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId APP_ID
+        minSdkVersion 15
+        targetSdkVersion SDK_VERSION
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'LICENSE.txt'
+    }
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs.collect()[0].processResources.manifestFile
+        resourcePackageName APP_ID
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+
+    // android support
+    compile "com.android.support:support-annotations:$SUPPORT_LIB_VERSION"
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
+    compile "com.android.support:design:$SUPPORT_LIB_VERSION"
+    compile "com.android.support:percent:$SUPPORT_LIB_VERSION"
+
+    // java 8 streams support
+    compile 'com.annimon:stream:1.0.3'
+
+    // annotations
+    apt "org.androidannotations:androidannotations:$ANDROIN_ANNOTATIONS_VERSION"
+    compile "org.androidannotations:androidannotations-api:$ANDROIN_ANNOTATIONS_VERSION"
+
+    // reactive!
+    compile 'io.reactivex:rxjava:1.0.15'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+
+    // android components lifecycle for Rx
+    compile 'com.trello:rxlifecycle:0.4.0'
+    compile 'com.trello:rxlifecycle-components:0.4.0'
+
+    // memory leaks control
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+
+    // joda time
+    compile 'net.danlew:android.joda:2.9.1'
+}
