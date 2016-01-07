@@ -2,4 +2,7 @@
 <resources>
     <string name="app_name">Помощник Выбора</string>
     <string name="ok">ОК</string>
+    <string name="no_data">Нет данных</string>
+    <string name="create_comparison">Создать сравнение</string>
+    <string name="comparison_history">История сравнений</string>
 </resources>
