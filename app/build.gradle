@@ -83,4 +83,7 @@ dependencies {
 
     // joda time
     compile 'net.danlew:android.joda:2.9.1'
+
+    // database
+    compile 'nl.qbusict:cupboard:2.1.4'
 }

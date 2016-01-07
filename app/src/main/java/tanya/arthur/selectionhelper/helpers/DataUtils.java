@@ -131,4 +131,28 @@ public class DataUtils {
     public static String getUUID() {
         return UUID.randomUUID().toString();
     }
+
+    public static int indexOf(long[] array, long value) {
+        int result = -1;
+        int size = NpeUtils.getNonNull(array).length;
+        for (int i = 0; i < size; i++) {
+            if (array[i] == value) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static int indexOf(int[] array, int value) {
+        int result = -1;
+        int size = NpeUtils.getNonNull(array).length;
+        for (int i = 0; i < size; i++) {
+            if (array[i] == value) {
+                result = i;
+                break;
+            }
+        }
+        return result;
+    }
 }

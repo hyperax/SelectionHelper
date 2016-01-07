@@ -8,6 +8,8 @@ import com.squareup.leakcanary.RefWatcher;
 
 import org.androidannotations.annotations.EApplication;
 
+import tanya.arthur.selectionhelper.data.sqlite.Storage;
+
 @EApplication
 public class App extends Application {
 
@@ -17,6 +19,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         refWatcher = LeakCanary.install(this);
+        Storage.init(this);
     }
 
     @NonNull

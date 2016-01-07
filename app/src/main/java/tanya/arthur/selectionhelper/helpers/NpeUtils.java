@@ -12,13 +12,24 @@ import java.util.List;
 public class NpeUtils {
 
     public static final String[] EMPTY_STRING_ARRAY = new String[0];
+    public static final long[][] EMPTY_LONG_MATRIX = new long[0][0];
     public static final long[] EMPTY_LONG_ARRAY = new long[0];
     public static final int[] EMPTY_INT_ARRAY = new int[0];
     public static final String EMPTY_STRING = "";
+    public static final Long EMPTY_LONG = 0L;
+    public static final int EMPTY_INT = 0;
 
     @NonNull
     public static <T> T getNonNull(T value, @NonNull T ifNullValue) {
         return value == null? ifNullValue : value;
+    }
+
+    public static long getNonNull(Long value) {
+        return getNonNull(value, EMPTY_LONG);
+    }
+
+    public static int getNonNull(Integer value) {
+        return getNonNull(value, EMPTY_INT);
     }
 
     @NonNull
@@ -34,6 +45,11 @@ public class NpeUtils {
     @NonNull
     public static long[] getNonNull(long[] value) {
         return getNonNull(value, EMPTY_LONG_ARRAY);
+    }
+
+    @NonNull
+    public static long[][] getNonNull(long[][] longMatrix) {
+        return getNonNull(longMatrix, EMPTY_LONG_MATRIX);
     }
 
     @NonNull
@@ -93,4 +109,5 @@ public class NpeUtils {
 
         return elementType;
     }
+
 }
