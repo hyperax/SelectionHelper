@@ -6,10 +6,13 @@ import android.text.TextUtils;
 
 import com.trello.rxlifecycle.components.support.RxFragment;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 
-import tanya.arthur.selectionhelper.App;
+import tanya.arthur.selectionhelper.SHApp;
+import tanya.arthur.selectionhelper.data.sqlite.DbQuery;
 import tanya.arthur.selectionhelper.helpers.Savable;
 import tanya.arthur.selectionhelper.view.helpers.TitleUpdateListener;
 import tanya.arthur.selectionhelper.view.notification.Letter;
@@ -20,8 +23,11 @@ public class BaseFragment extends RxFragment {
 
     private static final String SAVE_STATE = "save_state";
 
-    @org.androidannotations.annotations.App
-    protected App app;
+    @App
+    protected SHApp app;
+
+    @Bean
+    protected DbQuery dbQuery;
 
     @FragmentArg
     int iconRes = 0;

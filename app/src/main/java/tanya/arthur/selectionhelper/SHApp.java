@@ -11,7 +11,7 @@ import org.androidannotations.annotations.EApplication;
 import tanya.arthur.selectionhelper.data.sqlite.Storage;
 
 @EApplication
-public class App extends Application {
+public class SHApp extends Application {
 
     private RefWatcher refWatcher;
 

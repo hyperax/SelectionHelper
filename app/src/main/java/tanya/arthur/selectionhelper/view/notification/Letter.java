@@ -40,6 +40,14 @@ public class Letter implements Serializable {
         return new Letter();
     }
 
+    public static Letter alert() {
+        return new Letter().setType(ALERT);
+    }
+
+    public static Letter confirm() {
+        return new Letter().setType(CONFIRM);
+    }
+
     @Type
     public int getType() {
         return type;

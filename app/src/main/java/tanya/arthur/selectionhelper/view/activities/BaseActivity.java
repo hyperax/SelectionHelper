@@ -7,7 +7,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import org.androidannotations.annotations.EActivity;
 
-import tanya.arthur.selectionhelper.App;
+import tanya.arthur.selectionhelper.SHApp;
 import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
 import tanya.arthur.selectionhelper.view.helpers.TitleUpdateListener;
 import tanya.arthur.selectionhelper.view.notification.Letter;
@@ -18,7 +18,7 @@ public class BaseActivity extends RxAppCompatActivity
         implements FragmentManager.OnBackStackChangedListener, TitleUpdateListener {
 
     @org.androidannotations.annotations.App
-    protected App app;
+    protected SHApp app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

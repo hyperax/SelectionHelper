@@ -9,6 +9,8 @@ import org.androidannotations.annotations.EBean;
 
 import java.util.List;
 
+import rx.Observable;
+import tanya.arthur.selectionhelper.data.model.ComparisonInfo;
 import tanya.arthur.selectionhelper.helpers.DateUtils;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 
@@ -59,5 +61,13 @@ public class DbQuery {
 
     public void setTransactionSuccessful() {
         Storage.get().setTransactionSuccessful();
+    }
+
+    public Observable<List<ComparisonInfo>> getComparisonInfos() {
+        return Observable.create(subscriber -> {
+            if (!subscriber.isUnsubscribed()) {
+                subscriber.onNext(Storage.get().get(ComparisonInfo.class));
+            }
+        });
     }
 }

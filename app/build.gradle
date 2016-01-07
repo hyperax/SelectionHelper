@@ -2,22 +2,26 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
-def ANDROIN_ANNOTATIONS_VERSION = '3.3.2'
-def SUPPORT_LIB_VERSION = '23.1.1'
 def APP_ID = 'tanya.arthur.selectionhelper'
-def SDK_VERSION = 23
-def BUILD_TOOLS_VERSION = '23.0.2'
+def SDK_VERS = 23
+def BUILD_TOOLS_VERS = '23.0.2'
 def VERSION_CODE = 1
 def VERSION_NAME = '1.0'
 
+def ANDROID_ANNOTATIONS_VERS = '3.3.2'
+def SUPPORT_LIB_VERS = '23.1.1'
+def RX_LIFECYCLE_VERS = '0.4.0'
+def LEAK_CANARY_VERS = '1.3.1'
+def EVENTBUS_VERS = '3.0.0-beta1'
+
 android {
-    compileSdkVersion SDK_VERSION
-    buildToolsVersion BUILD_TOOLS_VERSION
+    compileSdkVersion SDK_VERS
+    buildToolsVersion BUILD_TOOLS_VERS
 
     defaultConfig {
         applicationId APP_ID
         minSdkVersion 15
-        targetSdkVersion SDK_VERSION
+        targetSdkVersion SDK_VERS
         versionCode VERSION_CODE
         versionName VERSION_NAME
     }
@@ -56,34 +60,41 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     // android support
-    compile "com.android.support:support-annotations:$SUPPORT_LIB_VERSION"
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIB_VERSION"
-    compile "com.android.support:percent:$SUPPORT_LIB_VERSION"
+    compile "com.android.support:support-annotations:$SUPPORT_LIB_VERS"
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIB_VERS"
+    compile "com.android.support:design:$SUPPORT_LIB_VERS"
+    compile "com.android.support:percent:$SUPPORT_LIB_VERS"
 
     // java 8 streams support
     compile 'com.annimon:stream:1.0.3'
 
     // annotations
-    apt "org.androidannotations:androidannotations:$ANDROIN_ANNOTATIONS_VERSION"
-    compile "org.androidannotations:androidannotations-api:$ANDROIN_ANNOTATIONS_VERSION"
+    apt "org.androidannotations:androidannotations:$ANDROID_ANNOTATIONS_VERS"
+    compile "org.androidannotations:androidannotations-api:$ANDROID_ANNOTATIONS_VERS"
 
     // reactive!
     compile 'io.reactivex:rxjava:1.0.15'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
 
+    // binding
+    compile 'com.jakewharton:butterknife:7.0.1'
+
     // android components lifecycle for Rx
-    compile 'com.trello:rxlifecycle:0.4.0'
-    compile 'com.trello:rxlifecycle-components:0.4.0'
+    compile "com.trello:rxlifecycle:$RX_LIFECYCLE_VERS"
+    compile "com.trello:rxlifecycle-components:$RX_LIFECYCLE_VERS"
 
     // memory leaks control
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$LEAK_CANARY_VERS"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$LEAK_CANARY_VERS"
 
     // joda time
     compile 'net.danlew:android.joda:2.9.1'
 
     // database
     compile 'nl.qbusict:cupboard:2.1.4'
+
+    // eventbus
+    compile "de.greenrobot:eventbus:$EVENTBUS_VERS"
+    provided "de.greenrobot:eventbus-annotation-processor:$EVENTBUS_VERS"
 }
