@@ -11,11 +11,12 @@ import java.util.List;
 
 import rx.Observable;
 import tanya.arthur.selectionhelper.data.model.ComparisonInfo;
+import tanya.arthur.selectionhelper.data.model.VariantGroup;
 import tanya.arthur.selectionhelper.helpers.DateUtils;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 
 @EBean(scope = EBean.Scope.Singleton)
-public class DbQuery {
+public class DataQuery {
 
     private final SimpleArrayMap<Class, Long> updatedEntities = new SimpleArrayMap<>();
 
@@ -64,10 +65,10 @@ public class DbQuery {
     }
 
     public Observable<List<ComparisonInfo>> getComparisonInfos() {
-        return Observable.create(subscriber -> {
-            if (!subscriber.isUnsubscribed()) {
-                subscriber.onNext(Storage.get().get(ComparisonInfo.class));
-            }
-        });
+        return Storage.get().getObservable(ComparisonInfo.class);
+    }
+
+    public Observable<List<VariantGroup>> getVariantGroups() {
+        return Storage.get().getObservable(VariantGroup.class);
     }
 }

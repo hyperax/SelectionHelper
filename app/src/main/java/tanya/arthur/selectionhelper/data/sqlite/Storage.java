@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import nl.qbusict.cupboard.DatabaseCompartment;
+import rx.Observable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -75,6 +76,14 @@ public class Storage {
         return dataCompartment.query(className).list();
     }
 
+    public <T> Observable<List<T>> getObservable(Class<T> className) {
+        return Observable.create(subscriber -> {
+            if (!subscriber.isUnsubscribed()) {
+                subscriber.onNext(Storage.get().get(className));
+            }
+        });
+    }
+
     @Nullable
     public <T> T get(Class<T> className, long id) {
         return dataCompartment.get(className, id);
@@ -101,4 +110,5 @@ public class Storage {
     public void endTransaction() {
         database.endTransaction();
     }
+
 }

@@ -5,4 +5,9 @@
     <string name="no_data">Нет данных</string>
     <string name="create_comparison">Создать сравнение</string>
     <string name="comparison_history">История сравнений</string>
+    <string name="back">Назад</string>
+    <string name="next">Далее</string>
+    <string name="cancel">Отмена</string>
+    <string name="finish">Завершить</string>
+    <string name="variant_groups">Наборы вариантов</string>
 </resources>

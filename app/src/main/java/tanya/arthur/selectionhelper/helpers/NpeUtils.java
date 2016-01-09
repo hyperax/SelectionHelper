@@ -3,6 +3,8 @@ package tanya.arthur.selectionhelper.helpers;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.annimon.stream.function.Consumer;
+
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -21,7 +23,7 @@ public class NpeUtils {
 
     @NonNull
     public static <T> T getNonNull(T value, @NonNull T ifNullValue) {
-        return value == null? ifNullValue : value;
+        return value == null ? ifNullValue : value;
     }
 
     public static long getNonNull(Long value) {
@@ -34,7 +36,7 @@ public class NpeUtils {
 
     @NonNull
     public static <T> List<T> getNonNull(List<T> value) {
-        return value == null? Collections.<T>emptyList() : value;
+        return value == null ? Collections.<T>emptyList() : value;
     }
 
     @NonNull
@@ -110,4 +112,14 @@ public class NpeUtils {
         return elementType;
     }
 
+    public static <T> boolean call(@NonNull Object instance,
+                                   @NonNull Class<T> clazz,
+                                   @NonNull Consumer<T> consumer) {
+        if (clazz.isInstance(instance)) {
+            consumer.accept(clazz.cast(instance));
+            return true;
+        }
+        return false;
+
+    }
 }

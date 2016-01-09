@@ -4,4 +4,9 @@
     <string name="no_data">No data</string>
     <string name="create_comparison">Create comparison</string>
     <string name="comparison_history">Comparison History</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="cancel">Cancel</string>
+    <string name="finish">Finish</string>
+    <string name="variant_groups">Variant groups</string>
 </resources>

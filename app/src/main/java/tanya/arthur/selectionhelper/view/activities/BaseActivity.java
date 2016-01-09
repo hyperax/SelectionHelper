@@ -5,9 +5,12 @@ import android.support.v4.app.FragmentManager;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 import tanya.arthur.selectionhelper.SHApp;
+import tanya.arthur.selectionhelper.data.sqlite.DataQuery;
 import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
 import tanya.arthur.selectionhelper.view.helpers.TitleUpdateListener;
 import tanya.arthur.selectionhelper.view.notification.Letter;
@@ -17,8 +20,11 @@ import tanya.arthur.selectionhelper.view.notification.Notice;
 public class BaseActivity extends RxAppCompatActivity
         implements FragmentManager.OnBackStackChangedListener, TitleUpdateListener {
 
-    @org.androidannotations.annotations.App
+    @App
     protected SHApp app;
+
+    @Bean
+    protected DataQuery query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,7 +15,7 @@ public abstract class DataEventFragment extends EventSupportFragment {
     }
 
     private void checkIsDataChanged() {
-        if (dbQuery.isDataChanged(getTrackedEntities(), dataTimestamp)) {
+        if (query.isDataChanged(getTrackedEntities(), dataTimestamp)) {
             onDataChanged();
             updateDataTimestamp();
         }

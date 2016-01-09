@@ -16,11 +16,12 @@
         <!--<item name="android:textViewStyle">@style/AppTheme.TextView</item>-->
         <!--<item name="android:buttonStyle">@style/AppTheme.Button</item>-->
 
-        <!--<item name="android:textColorPrimary">@color/textcolor_primary</item>-->
+        <item name="android:textColorPrimary">@color/textcolorPrimary</item>
+        <item name="android:textColorSecondary">@color/textcolorSecondary</item>
+
         <!--<item name="android:textColorHint">@color/textcolor_hint</item>-->
         <!--<item name="android:editTextColor">@color/textcolor_primary</item>-->
         <!--<item name="android:textColorPrimary">@color/textcolor_primary</item>-->
-        <!--<item name="android:textColorSecondary">@color/textcolor_primary</item>-->
         <!--<item name="android:textColorTertiary">@color/textcolor_primary</item>-->
         <!--<item name="android:textColorPrimaryInverse">@color/textcolor_primary</item>-->
         <!--<item name="android:textColorSecondaryInverse">@color/textcolor_primary</item>-->
@@ -28,6 +29,7 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.Fullscreen" parent="AppTheme">
