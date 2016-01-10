@@ -10,6 +10,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 
 import tanya.arthur.selectionhelper.SHApp;
+import tanya.arthur.selectionhelper.data.Logic;
 import tanya.arthur.selectionhelper.data.sqlite.DataQuery;
 import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
 import tanya.arthur.selectionhelper.view.helpers.TitleUpdateListener;
@@ -26,6 +27,9 @@ public class BaseActivity extends RxAppCompatActivity
     @Bean
     protected DataQuery query;
 
+    @Bean
+    protected Logic logic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +38,6 @@ public class BaseActivity extends RxAppCompatActivity
 
     @Override
     public void onBackStackChanged() {
-
     }
 
     @Override

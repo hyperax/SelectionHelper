@@ -10,4 +10,6 @@
     <string name="cancel">Отмена</string>
     <string name="finish">Завершить</string>
     <string name="variant_groups">Наборы вариантов</string>
+    <string name="new_comparison">Новое сравнение</string>
+    <string name="unable_create_comparison">Не удается создать новое сравнение</string>
 </resources>

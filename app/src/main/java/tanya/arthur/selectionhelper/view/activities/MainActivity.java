@@ -10,7 +10,6 @@ import org.androidannotations.annotations.ViewById;
 import tanya.arthur.selectionhelper.R;
 import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
 import tanya.arthur.selectionhelper.view.fragments.ComparisonListFragment;
-import tanya.arthur.selectionhelper.view.notification.Letter;
 
 @EActivity
 public class MainActivity extends BaseActivity implements ComparisonListFragment.Callback {
@@ -45,8 +44,7 @@ public class MainActivity extends BaseActivity implements ComparisonListFragment
 
     @Override
     public void onClickComparison(ComparisonListFragment f, long comparisonInfoId) {
-        // TODO Open existed comparison
-        showToast(Letter.get().setText("Open existed comparison!"));
+        ComparisonBuildActivity_.intent(this).comparisonInfoId(comparisonInfoId).start();
     }
 
     @Override

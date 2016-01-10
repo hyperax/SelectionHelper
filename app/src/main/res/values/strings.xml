@@ -9,4 +9,6 @@
     <string name="cancel">Cancel</string>
     <string name="finish">Finish</string>
     <string name="variant_groups">Variant groups</string>
+    <string name="new_comparison">New comparison</string>
+    <string name="unable_create_comparison">Unable to create new comparison</string>
 </resources>

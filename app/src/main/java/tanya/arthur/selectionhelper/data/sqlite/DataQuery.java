@@ -35,8 +35,11 @@ public class DataQuery {
         return 0L;
     }
 
-    private void onTableUpdated(Class entityClass) {
-        updatedEntities.put(entityClass, DateUtils.getCurrentMillis());
+    private void onTableUpdated(Class... entityClass) {
+        long timestamp = DateUtils.getCurrentMillis();
+        for (Class clazz : entityClass) {
+            updatedEntities.put(clazz, timestamp);
+        }
     }
 
     public boolean isDataChanged(Class[] entities, long date) {
@@ -48,7 +51,8 @@ public class DataQuery {
         if (!NpeUtils.isEmpty(clazz)) {
             Storage storage = Storage.get();
             Stream.of(clazz)
-                    .forEach(storage::clearTable);
+                    .filter(c -> storage.clearTable(c) > 0)
+                    .forEach(this::onTableUpdated);
         }
     }
 
@@ -70,5 +74,9 @@ public class DataQuery {
 
     public Observable<List<VariantGroup>> getVariantGroups() {
         return Storage.get().getObservable(VariantGroup.class);
+    }
+
+    public ComparisonInfo getComparisonInfo(long comparisonInfoId) {
+        return Storage.get().get(ComparisonInfo.class, comparisonInfoId);
     }
 }
