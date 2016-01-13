@@ -42,9 +42,7 @@ public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdap
     private void onClickVariantGroup(View view) {
         VariantGroup variantGroup = (VariantGroup) view.getTag();
         setSelectedVariantGroup(NpeUtils.getNonNull(variantGroup.getId()));
-        if (listener != null) {
-            listener.onClick(variantGroup);
-        }
+        NpeUtils.call(listener, Callback.class, cb->cb.onClick(variantGroup));
     }
 
     public void setSelectedVariantGroup(long id) {
@@ -94,7 +92,7 @@ public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdap
         }
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder{
+    public static class ItemViewHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.name)
         RadioButton nameTextView;
 

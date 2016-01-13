@@ -11,9 +11,13 @@ import java.util.List;
 
 import rx.Observable;
 import tanya.arthur.selectionhelper.data.model.ComparisonInfo;
+import tanya.arthur.selectionhelper.data.model.Variant;
 import tanya.arthur.selectionhelper.data.model.VariantGroup;
+import tanya.arthur.selectionhelper.data.model.contract.Contract;
 import tanya.arthur.selectionhelper.helpers.DateUtils;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
+
+import static tanya.arthur.selectionhelper.helpers.SqlUtils.param;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class DataQuery {
@@ -78,5 +82,24 @@ public class DataQuery {
 
     public ComparisonInfo getComparisonInfo(long comparisonInfoId) {
         return Storage.get().get(ComparisonInfo.class, comparisonInfoId);
+    }
+
+    public Observable<List<Variant>> getVariants(long variantGroupId) {
+        return Observable.create(subscriber -> {
+            if (!subscriber.isUnsubscribed()) {
+                subscriber.onNext(getVariantsInternal(variantGroupId));
+            }
+        });
+    }
+
+    private List<Variant> getVariantsInternal(long variantGroupId) {
+        return Storage.get().getQuery(Variant.class)
+                .withSelection(param(Contract.Variant.GROUP_ID, variantGroupId))
+                .orderBy(Contract.ID)
+                .list();
+    }
+
+    public VariantGroup getVariantGroup(long variantGroupId) {
+        return Storage.get().get(VariantGroup.class, variantGroupId);
     }
 }

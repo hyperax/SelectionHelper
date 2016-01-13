@@ -11,4 +11,8 @@
     <string name="variant_groups">Variant groups</string>
     <string name="new_comparison">New comparison</string>
     <string name="unable_create_comparison">Unable to create new comparison</string>
+    <string name="unable_create_variant_group">Unable to create new variant group</string>
+    <string name="new_variant_group">New variant group</string>
+    <string name="new_variant">New variant</string>
+    <string name="variant_group">Variant Group</string>
 </resources>

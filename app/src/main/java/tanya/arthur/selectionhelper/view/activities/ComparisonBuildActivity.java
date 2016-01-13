@@ -44,7 +44,7 @@ public class ComparisonBuildActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparison_build);
         if (savedInstanceState == null) {
-            initStartFragment();
+            replaceMainFragment(createVariantGroupsFragment());
         }
     }
 
@@ -80,10 +80,6 @@ public class ComparisonBuildActivity extends BaseActivity
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
-    private void initStartFragment() {
-        replaceMainFragment(createVariantGroupsFragment());
-    }
-
     private VariantGroupsFragment createVariantGroupsFragment() {
         return VariantGroupsFragment.newInstance();
     }
@@ -113,8 +109,9 @@ public class ComparisonBuildActivity extends BaseActivity
 
     @Override
     public void onCreateVariantGroups(VariantGroupsFragment f) {
-        // TODO start activity of variant group
-        showToast(Letter.alert().setText("TODO start activity of variant group"));
+        VariantGroupActivity_.intent(this)
+                .variantGroupId(comparisonInfo.getVariantGroupId())
+                .start();
     }
 
     @Override

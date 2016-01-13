@@ -12,4 +12,8 @@
     <string name="variant_groups">Наборы вариантов</string>
     <string name="new_comparison">Новое сравнение</string>
     <string name="unable_create_comparison">Не удается создать новое сравнение</string>
+    <string name="unable_create_variant_group">Не удается создать набор вариантов</string>
+    <string name="new_variant_group">Новый набор вариантов</string>
+    <string name="new_variant">Новый вариант</string>
+    <string name="variant_group">Набор вариантов</string>
 </resources>

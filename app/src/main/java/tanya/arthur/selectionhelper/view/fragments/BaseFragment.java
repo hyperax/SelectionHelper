@@ -12,6 +12,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 
 import tanya.arthur.selectionhelper.SHApp;
+import tanya.arthur.selectionhelper.data.Logic;
 import tanya.arthur.selectionhelper.data.sqlite.DataQuery;
 import tanya.arthur.selectionhelper.helpers.Savable;
 import tanya.arthur.selectionhelper.view.helpers.TitleUpdateListener;
@@ -25,6 +26,9 @@ public class BaseFragment extends RxFragment {
 
     @App
     protected SHApp app;
+
+    @Bean
+    protected Logic logic;
 
     @Bean
     protected DataQuery query;
