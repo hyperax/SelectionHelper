@@ -84,15 +84,15 @@ public class DataQuery {
         return Storage.get().get(ComparisonInfo.class, comparisonInfoId);
     }
 
-    public Observable<List<Variant>> getVariants(long variantGroupId) {
+    public Observable<List<Variant>> getVariantsRx(long variantGroupId) {
         return Observable.create(subscriber -> {
             if (!subscriber.isUnsubscribed()) {
-                subscriber.onNext(getVariantsInternal(variantGroupId));
+                subscriber.onNext(getVariants(variantGroupId));
             }
         });
     }
 
-    private List<Variant> getVariantsInternal(long variantGroupId) {
+    public List<Variant> getVariants(long variantGroupId) {
         return Storage.get().getQuery(Variant.class)
                 .withSelection(param(Contract.Variant.GROUP_ID, variantGroupId))
                 .orderBy(Contract.ID)
@@ -101,5 +101,10 @@ public class DataQuery {
 
     public VariantGroup getVariantGroup(long variantGroupId) {
         return Storage.get().get(VariantGroup.class, variantGroupId);
+    }
+
+    public boolean deleteVariants(long variantGroupId) {
+        return Storage.get()
+                .delete(Variant.class, param(Contract.Variant.GROUP_ID, variantGroupId)) > 0;
     }
 }

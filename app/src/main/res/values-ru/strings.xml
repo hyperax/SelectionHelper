@@ -16,4 +16,5 @@
     <string name="new_variant_group">Новый набор вариантов</string>
     <string name="new_variant">Новый вариант</string>
     <string name="variant_group">Набор вариантов</string>
+    <string name="done">Сохранить</string>
 </resources>

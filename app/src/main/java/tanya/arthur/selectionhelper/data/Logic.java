@@ -6,6 +6,8 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
+import java.util.ArrayList;
+
 import de.greenrobot.event.EventBus;
 import tanya.arthur.selectionhelper.R;
 import tanya.arthur.selectionhelper.data.events.DataUpdatedEvent;
@@ -64,5 +66,11 @@ public class Logic {
         if (!NpeUtils.isEmpty(updatedEntities)) {
             EventBus.getDefault().post(new DataUpdatedEvent(updatedEntities));
         }
+    }
+
+    public void saveVariants(long variantGroupId, ArrayList<Variant> variants) {
+        query.deleteVariants(variantGroupId);
+        query.put(variants);
+        notifyDataUpdated(Variant.class);
     }
 }

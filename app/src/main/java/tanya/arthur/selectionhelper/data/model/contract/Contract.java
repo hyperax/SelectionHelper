@@ -16,6 +16,7 @@ public interface Contract {
     interface Variant {
         String GROUP_ID = "group_id";
         String NAME = "name";
+        String SORT_ORDER = "sort_order";
     }
 
     interface VariantGroup {

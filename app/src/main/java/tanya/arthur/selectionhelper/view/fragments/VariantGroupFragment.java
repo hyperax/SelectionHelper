@@ -1,31 +1,37 @@
 package tanya.arthur.selectionhelper.view.fragments;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.TextView;
-
-import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.RxLifecycle;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import tanya.arthur.selectionhelper.R;
 import tanya.arthur.selectionhelper.data.model.Variant;
-import tanya.arthur.selectionhelper.data.model.VariantGroup;
+import tanya.arthur.selectionhelper.helpers.NpeUtils;
+import tanya.arthur.selectionhelper.helpers.Savable;
 import tanya.arthur.selectionhelper.view.adapters.VariantsAdapter;
-import tanya.arthur.selectionhelper.view.notification.Letter;
 import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
 
+@OptionsMenu(R.menu.variant_group)
 @EFragment(R.layout.fragment_variant_group)
-public class VariantGroupFragment extends DataEventFragment
-        implements VariantsAdapter.Callback {
+public class VariantGroupFragment extends BaseFragment
+        implements Savable, VariantsAdapter.Callback {
+
+    public interface Callback {
+        void onDone(VariantGroupFragment f);
+    }
+
+    private static final String STATE_VARIANTS = "state_variants";
 
     @ViewById(R.id.recycler_view)
     RecyclerViewEmptySupport recyclerView;
@@ -36,6 +42,8 @@ public class VariantGroupFragment extends DataEventFragment
     @FragmentArg
     long variantGroupId;
 
+    private ArrayList<Variant> variants;
+
     private VariantsAdapter adapter;
 
     public static VariantGroupFragment newInstance(long variantGroupId) {
@@ -44,9 +52,19 @@ public class VariantGroupFragment extends DataEventFragment
 
     @AfterViews
     void init() {
+        initVariants();
         initRecyclerView();
-        onDataChanged();
-        updateDataTimestamp();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initVariants() {
+        Bundle state = restoreSavedState();
+        if (state != null) {
+            variants = (ArrayList <Variant>) state.getSerializable(STATE_VARIANTS);
+        } else {
+            variants = new ArrayList<>();
+            variants.addAll(query.getVariants(variantGroupId));
+        }
     }
 
     private void initRecyclerView() {
@@ -55,36 +73,28 @@ public class VariantGroupFragment extends DataEventFragment
 
         adapter = new VariantsAdapter();
         adapter.setListener(this);
-
-        recyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    protected Class[] getTrackedEntities() {
-        return new Class[] {VariantGroup.class};
-    }
-
-    @Override
-    protected void onDataChanged() {
-        query.getVariants(variantGroupId)
-                .compose(RxLifecycle.bindUntilFragmentEvent(lifecycle(), FragmentEvent.STOP))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onDataLoaded,
-                        error -> showToast(Letter.alert().setText(error.toString())));
-    }
-
-    private void onDataLoaded(List<Variant> variants) {
         adapter.setItems(variants);
-        adapter.notifyDataSetChanged();
-        updateDataTimestamp();
+        recyclerView.setAdapter(adapter);
     }
 
     @Click(R.id.fab)
     void onCreateVariantGroup() {
         Variant variant = logic.createVariant();
         variant.setGroupId(variantGroupId);
-        logic.saveVariant(variant);
+        variants.add(variant);
+        adapter.addItem(variant);
+        adapter.notifyItemInserted(adapter.getItemCount() - 1);
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+    }
+
+    @OptionsItem(R.id.action_done)
+    void onDone() {
+        int size = variants.size();
+        for (int i = 0; i < size; i++) {
+            variants.get(i).setSortOrder(i);
+        }
+        logic.saveVariants(variantGroupId, variants);
+        NpeUtils.call(getHostParent(), Callback.class, cb -> cb.onDone(this));
     }
 
     @Override
@@ -95,5 +105,13 @@ public class VariantGroupFragment extends DataEventFragment
     @Override
     public void onClick(Variant variant) {
         // TODO on click variant start to edit it
+    }
+
+    @Nullable
+    @Override
+    public Bundle getBundleSaveState() {
+        Bundle state = new Bundle();
+        state.putSerializable(STATE_VARIANTS, variants);
+        return state;
     }
 }

@@ -1,10 +1,11 @@
 package tanya.arthur.selectionhelper.view.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import butterknife.ButterKnife;
 import tanya.arthur.selectionhelper.R;
 import tanya.arthur.selectionhelper.data.model.Variant;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
+import tanya.arthur.selectionhelper.view.helpers.AfterTextChangedWatcher;
 
 public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemViewHolder> {
 
@@ -64,14 +66,27 @@ public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemVi
         }
     }
 
+    public void addItem(Variant variant) {
+        items.add(variant);
+    }
+
     public static class ItemViewHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.name)
-        TextView nameTextView;
+        EditText nameTextView;
 
-        public ItemViewHolder(View v, View.OnClickListener clickListener) {
+        public ItemViewHolder(View v, View.OnClickListener cl) {
             super(v);
             ButterKnife.bind(this, v);
-            v.setOnClickListener(clickListener);
+            v.setOnClickListener(cl);
+            nameTextView.addTextChangedListener(new AfterTextChangedWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {
+                    Variant variant = (Variant) itemView.getTag();
+                    if (variant != null) {
+                        variant.setName(s.toString());
+                    }
+                }
+            });
         }
 
         public void setItem(Variant item) {
