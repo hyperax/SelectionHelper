@@ -1,6 +1,7 @@
 package tanya.arthur.selectionhelper.view.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -44,6 +45,7 @@ public class BaseFragment extends RxFragment {
     @FragmentArg
     int subTitleRes = 0;
 
+    @Nullable
     protected Object getHostParent() {
         Object hostParent = null;
         if (getParentFragment() != null) {
@@ -52,6 +54,16 @@ public class BaseFragment extends RxFragment {
             hostParent = getActivity();
         }
         return hostParent;
+    }
+
+    @Nullable
+    protected <T> T getCallback(@NonNull Class<T> callbackClass) {
+        Object hostParent = getHostParent();
+        if (callbackClass.isInstance(hostParent)) {
+            return callbackClass.cast(hostParent);
+        }
+
+        return null;
     }
 
     @Override

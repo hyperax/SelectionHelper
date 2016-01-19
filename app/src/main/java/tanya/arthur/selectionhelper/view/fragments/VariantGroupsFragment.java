@@ -92,13 +92,13 @@ public class VariantGroupsFragment extends DataEventFragment
 
     @Click(R.id.fab)
     void onCreateVariantGroup() {
-        NpeUtils.call(getHostParent(), Callback.class,
+        NpeUtils.call(getCallback(Callback.class)   ,
                 cb -> cb.onCreateVariantGroups(VariantGroupsFragment.this));
     }
 
     @Override
     public void onClick(VariantGroup variantGroup) {
-        NpeUtils.call(getHostParent(), Callback.class,
+        NpeUtils.call(getCallback(Callback.class),
                 cb -> cb.onClickVariantGroup(this, NpeUtils.getNonNull(variantGroup.getId())));
     }
 

@@ -2,6 +2,8 @@ package tanya.arthur.selectionhelper.data;
 
 import android.content.Context;
 
+import com.annimon.stream.Stream;
+
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -45,8 +47,7 @@ public class Logic {
     }
 
     public Variant createVariant() {
-        return new Variant()
-                .setName(context.getString(R.string.new_variant));
+        return new Variant();
     }
 
     public boolean saveVariant(Variant variant) {
@@ -70,6 +71,9 @@ public class Logic {
 
     public void saveVariants(long variantGroupId, ArrayList<Variant> variants) {
         query.deleteVariants(variantGroupId);
+
+        Stream.of(variants)
+                .forEach(variant -> variant.setGroupId(variantGroupId));
         query.put(variants);
         notifyDataUpdated(Variant.class);
     }

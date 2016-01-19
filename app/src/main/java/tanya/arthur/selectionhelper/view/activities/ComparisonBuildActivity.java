@@ -110,7 +110,6 @@ public class ComparisonBuildActivity extends BaseActivity
     @Override
     public void onCreateVariantGroups(VariantGroupsFragment f) {
         VariantGroupActivity_.intent(this)
-                .variantGroupId(comparisonInfo.getVariantGroupId())
                 .start();
     }
 

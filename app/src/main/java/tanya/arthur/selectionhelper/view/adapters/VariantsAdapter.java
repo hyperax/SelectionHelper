@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import tanya.arthur.selectionhelper.R;
 import tanya.arthur.selectionhelper.data.model.Variant;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
+import tanya.arthur.selectionhelper.helpers.ViewUtils;
 import tanya.arthur.selectionhelper.view.helpers.AfterTextChangedWatcher;
 
 public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemViewHolder> {
@@ -78,6 +79,8 @@ public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemVi
             super(v);
             ButterKnife.bind(this, v);
             v.setOnClickListener(cl);
+            nameTextView.setOnFocusChangeListener(
+                    (view, hasFocus) -> ViewUtils.hideSoftKeyboard(view));
             nameTextView.addTextChangedListener(new AfterTextChangedWatcher() {
                 @Override
                 public void afterTextChanged(Editable s) {

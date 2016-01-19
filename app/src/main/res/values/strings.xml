@@ -16,4 +16,6 @@
     <string name="new_variant">New variant</string>
     <string name="variant_group">Variant Group</string>
     <string name="done">Done</string>
+    <string name="enter_name">Enter the name</string>
+    <string name="group_name">Group name</string>
 </resources>

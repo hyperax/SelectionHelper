@@ -1,6 +1,7 @@
 package tanya.arthur.selectionhelper.helpers;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.annimon.stream.function.Consumer;
@@ -112,7 +113,7 @@ public class NpeUtils {
         return elementType;
     }
 
-    public static <T> boolean call(@NonNull Object instance,
+    public static <T> boolean call(@Nullable Object instance,
                                    @NonNull Class<T> clazz,
                                    @NonNull Consumer<T> consumer) {
         if (clazz.isInstance(instance)) {
@@ -120,6 +121,14 @@ public class NpeUtils {
             return true;
         }
         return false;
+    }
 
+    public static <T> boolean call(@Nullable T instance,
+                                   @NonNull Consumer<T> consumer) {
+        if (instance != null) {
+            consumer.accept(instance);
+            return true;
+        }
+        return false;
     }
 }

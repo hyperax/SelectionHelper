@@ -11,11 +11,8 @@ import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import tanya.arthur.selectionhelper.R;
-import tanya.arthur.selectionhelper.data.model.VariantGroup;
-import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
 import tanya.arthur.selectionhelper.view.fragments.VariantGroupFragment;
-import tanya.arthur.selectionhelper.view.notification.Letter;
 
 @EActivity
 public class VariantGroupActivity extends BaseActivity {
@@ -36,7 +33,6 @@ public class VariantGroupActivity extends BaseActivity {
     @AfterViews
     void init() {
         initToolbar();
-        initData();
         initFragments();
     }
 
@@ -54,18 +50,6 @@ public class VariantGroupActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    }
-
-    private void initData() {
-        if (variantGroupId == 0L) {
-            VariantGroup vg = logic.createVariantGroup();
-            if (logic.saveVariantGroup(vg)) {
-                variantGroupId = NpeUtils.getNonNull(vg.getId());
-            } else {
-                showToast(Letter.alert().setText(getString(R.string.unable_create_variant_group)));
-                finish();
-            }
-        }
     }
 
     private void replaceMainFragment(BaseFragment fragment) {

@@ -17,4 +17,6 @@
     <string name="new_variant">Новый вариант</string>
     <string name="variant_group">Набор вариантов</string>
     <string name="done">Сохранить</string>
+    <string name="enter_name">Введите название</string>
+    <string name="group_name">Название набора</string>
 </resources>
