@@ -3,6 +3,8 @@ package tanya.arthur.selectionhelper.view.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import tanya.arthur.selectionhelper.data.model.VariantGroup;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.helpers.Savable;
 import tanya.arthur.selectionhelper.view.adapters.VariantsAdapter;
+import tanya.arthur.selectionhelper.view.adapters.helper.SimpleItemTouchHelperCallback;
 import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
 
 @OptionsMenu(R.menu.variant_group)
@@ -48,6 +51,8 @@ public class VariantGroupFragment extends BaseFragment
 
     @FragmentArg
     long variantGroupId;
+
+    private ItemTouchHelper itemTouchHelper;
 
     private ArrayList<Variant> variants;
 
@@ -96,6 +101,10 @@ public class VariantGroupFragment extends BaseFragment
         adapter.setListener(this);
         adapter.setItems(variants);
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Click(R.id.fab)
@@ -104,8 +113,9 @@ public class VariantGroupFragment extends BaseFragment
         variant.setGroupId(variantGroupId);
         variants.add(variant);
         adapter.addItem(variant);
-        adapter.notifyItemInserted(adapter.getItemCount() - 1);
         recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+        // FIXME too many animations!
+        adapter.notifyItemInserted(adapter.getItemCount() - 1);
     }
 
     @OptionsItem(R.id.action_done)
@@ -131,6 +141,11 @@ public class VariantGroupFragment extends BaseFragment
     @Override
     public void onClick(Variant variant) {
         // TODO on click variant start to edit it
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
     }
 
     @Nullable

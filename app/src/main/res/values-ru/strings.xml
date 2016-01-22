@@ -19,4 +19,5 @@
     <string name="done">Сохранить</string>
     <string name="enter_name">Введите название</string>
     <string name="group_name">Название набора</string>
+    <string name="reorder">Упорядочить</string>
 </resources>
