@@ -113,8 +113,7 @@ public class VariantGroupFragment extends BaseFragment
         variant.setGroupId(variantGroupId);
         variants.add(variant);
         adapter.addItem(variant);
-        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-        // FIXME too many animations!
+        recyclerView.smoothScrollToPosition(adapter.getItemCount());
         adapter.notifyItemInserted(adapter.getItemCount() - 1);
     }
 
