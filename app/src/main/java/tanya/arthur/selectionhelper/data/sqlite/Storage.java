@@ -80,6 +80,7 @@ public class Storage {
         return Observable.create(subscriber -> {
             if (!subscriber.isUnsubscribed()) {
                 subscriber.onNext(Storage.get().get(className));
+                subscriber.onCompleted();
             }
         });
     }

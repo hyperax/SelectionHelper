@@ -20,4 +20,5 @@
     <string name="enter_name">Введите название</string>
     <string name="group_name">Название набора</string>
     <string name="reorder">Упорядочить</string>
+    <string name="setup_variant_group">Пожалуйста, выберите набор вариантов</string>
 </resources>

@@ -1,5 +1,7 @@
 package tanya.arthur.selectionhelper.view.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,8 @@ import com.trello.rxlifecycle.RxLifecycle;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
@@ -21,6 +25,8 @@ import tanya.arthur.selectionhelper.R;
 import tanya.arthur.selectionhelper.data.model.VariantGroup;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.helpers.Savable;
+import tanya.arthur.selectionhelper.view.activities.VariantGroupActivity;
+import tanya.arthur.selectionhelper.view.activities.VariantGroupActivity_;
 import tanya.arthur.selectionhelper.view.adapters.VariantGroupsAdapter;
 import tanya.arthur.selectionhelper.view.notification.Letter;
 import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
@@ -29,10 +35,11 @@ import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
 public class VariantGroupsFragment extends DataEventFragment
         implements Savable, VariantGroupsAdapter.Callback {
 
+    private static final int REQUEST_CREATE_VARIANT_GROUP = 1;
+
     private static final String STATE_SELECTED_VARIANT_GROUP = "state_selected_var_group";
 
     public interface Callback {
-        void onCreateVariantGroups(VariantGroupsFragment f);
         void onClickVariantGroup(VariantGroupsFragment f, long variantGroupId);
     }
 
@@ -42,10 +49,13 @@ public class VariantGroupsFragment extends DataEventFragment
     @ViewById(R.id.empty_view)
     TextView emptyTextView;
 
+    @FragmentArg
+    long argVariantGroup;
+
     private VariantGroupsAdapter adapter;
 
-    public static VariantGroupsFragment newInstance() {
-        return VariantGroupsFragment_.builder().build();
+    public static VariantGroupsFragment newInstance(long selectedVariantGroupId) {
+        return VariantGroupsFragment_.builder().argVariantGroup(selectedVariantGroupId).build();
     }
 
     @AfterViews
@@ -65,6 +75,8 @@ public class VariantGroupsFragment extends DataEventFragment
         Bundle state = restoreSavedState();
         if (state != null && state.containsKey(STATE_SELECTED_VARIANT_GROUP)) {
             adapter.setSelectedVariantGroup(state.getLong(STATE_SELECTED_VARIANT_GROUP));
+        } else {
+            adapter.setSelectedVariantGroup(argVariantGroup);
         }
         recyclerView.setAdapter(adapter);
     }
@@ -92,8 +104,7 @@ public class VariantGroupsFragment extends DataEventFragment
 
     @Click(R.id.fab)
     void onCreateVariantGroup() {
-        NpeUtils.call(getCallback(Callback.class)   ,
-                cb -> cb.onCreateVariantGroups(VariantGroupsFragment.this));
+        VariantGroupActivity_.intent(this).startForResult(REQUEST_CREATE_VARIANT_GROUP);
     }
 
     @Override
@@ -113,5 +124,14 @@ public class VariantGroupsFragment extends DataEventFragment
         Bundle bundle = new Bundle();
         bundle.putLong(STATE_SELECTED_VARIANT_GROUP, adapter.getSelectedVariantGroup());
         return bundle;
+    }
+
+    @OnActivityResult(REQUEST_CREATE_VARIANT_GROUP)
+    protected void onActivityResult(int resultCode, Intent data){
+        if (resultCode == Activity.RESULT_OK){
+            long createdVariantGroupId =
+                    data.getExtras().getLong(VariantGroupActivity.EXTRA_VARIANT_GROUP_ID);
+            adapter.setSelectedVariantGroup(createdVariantGroupId);
+        }
     }
 }

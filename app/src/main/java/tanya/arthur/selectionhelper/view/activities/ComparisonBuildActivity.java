@@ -56,7 +56,7 @@ public class ComparisonBuildActivity extends BaseActivity
 
     private void initData() {
         if (comparisonInfoId == 0) {
-            comparisonInfo = logic.createComparisonInfo();
+            setComparisonInfo(logic.createComparisonInfo());
             if (logic.saveComparisonInfo(comparisonInfo)) {
                 comparisonInfoId = NpeUtils.getNonNull(comparisonInfo.getId());
             } else {
@@ -64,8 +64,12 @@ public class ComparisonBuildActivity extends BaseActivity
                 finish();
             }
         } else {
-            comparisonInfo = query.getComparisonInfo(comparisonInfoId);
+            setComparisonInfo(query.getComparisonInfo(comparisonInfoId));
         }
+    }
+
+    private void setComparisonInfo(ComparisonInfo comparisonInfo) {
+        this.comparisonInfo = comparisonInfo;
     }
 
     @Override
@@ -81,7 +85,7 @@ public class ComparisonBuildActivity extends BaseActivity
     }
 
     private VariantGroupsFragment createVariantGroupsFragment() {
-        return VariantGroupsFragment.newInstance();
+        return VariantGroupsFragment.newInstance(comparisonInfo.getVariantGroupId());
     }
 
     private void replaceMainFragment(Fragment fragment) {
@@ -105,12 +109,6 @@ public class ComparisonBuildActivity extends BaseActivity
     public boolean updateTitleRequest(BaseFragment fragment) {
         toolbar.setTitle(fragment.getTitle());
         return true;
-    }
-
-    @Override
-    public void onCreateVariantGroups(VariantGroupsFragment f) {
-        VariantGroupActivity_.intent(this)
-                .start();
     }
 
     @Override
@@ -146,5 +144,11 @@ public class ComparisonBuildActivity extends BaseActivity
     @Click(R.id.next)
     void onClickNext() {
         BaseFragment mainFragment = getMainFragment();
+
+        if (comparisonInfo.getVariantGroupId() > 0) {
+            // TODO move to next fragment
+        } else {
+            showToast(Letter.alert().setText(getString(R.string.setup_variant_group)));
+        }
     }
 }

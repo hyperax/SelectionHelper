@@ -1,5 +1,6 @@
 package tanya.arthur.selectionhelper.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +16,14 @@ import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
 import tanya.arthur.selectionhelper.view.fragments.VariantGroupFragment;
 
 @EActivity
-public class VariantGroupActivity extends BaseActivity {
+public class VariantGroupActivity extends BaseActivity implements VariantGroupFragment.Callback {
+
+    public static final String EXTRA_VARIANT_GROUP_ID = "extra_variant_group_id";
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
-    @Extra
+    @Extra(EXTRA_VARIANT_GROUP_ID)
     @InstanceState
     long variantGroupId;
 
@@ -77,5 +80,12 @@ public class VariantGroupActivity extends BaseActivity {
 
     private BaseFragment getMainFragment() {
         return (BaseFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
+
+    @Override
+    public void onDone(VariantGroupFragment f, long variantGroupId) {
+        this.variantGroupId = variantGroupId;
+        setResult(RESULT_OK, new Intent().putExtra(EXTRA_VARIANT_GROUP_ID, variantGroupId));
+        finish();
     }
 }

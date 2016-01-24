@@ -33,7 +33,7 @@ public class VariantGroupFragment extends BaseFragment
         implements Savable, VariantsAdapter.Callback {
 
     public interface Callback {
-        void onDone(VariantGroupFragment f);
+        void onDone(VariantGroupFragment f, long variantGroupId);
     }
 
     private static final String STATE_VARIANTS = "state_variants";
@@ -127,6 +127,7 @@ public class VariantGroupFragment extends BaseFragment
         variantGroup.setName(nameEditText.getText().toString());
 
         logic.saveVariantGroup(variantGroup);
+        variantGroupId = NpeUtils.getNonNull(variantGroup.getId());
 
         int size = variants.size();
         for (int i = 0; i < size; i++) {
@@ -134,7 +135,7 @@ public class VariantGroupFragment extends BaseFragment
         }
 
         logic.saveVariants(variantGroupId, variants);
-        NpeUtils.call(getHostParent(), Callback.class, cb -> cb.onDone(this));
+        NpeUtils.call(getHostParent(), Callback.class, cb -> cb.onDone(this, variantGroupId));
     }
 
     @Override

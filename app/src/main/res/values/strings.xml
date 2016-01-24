@@ -19,4 +19,5 @@
     <string name="enter_name">Enter the name</string>
     <string name="group_name">Group name</string>
     <string name="reorder">Reorder</string>
+    <string name="setup_variant_group">Please select the variant group</string>
 </resources>
