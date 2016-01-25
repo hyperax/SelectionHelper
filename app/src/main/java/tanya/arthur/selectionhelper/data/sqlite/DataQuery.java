@@ -11,6 +11,8 @@ import java.util.List;
 
 import rx.Observable;
 import tanya.arthur.selectionhelper.data.model.ComparisonInfo;
+import tanya.arthur.selectionhelper.data.model.Criteria;
+import tanya.arthur.selectionhelper.data.model.CriteriaGroup;
 import tanya.arthur.selectionhelper.data.model.Variant;
 import tanya.arthur.selectionhelper.data.model.VariantGroup;
 import tanya.arthur.selectionhelper.data.model.contract.Contract;
@@ -84,14 +86,6 @@ public class DataQuery {
         return Storage.get().get(ComparisonInfo.class, comparisonInfoId);
     }
 
-    public Observable<List<Variant>> getVariantsRx(long variantGroupId) {
-        return Observable.create(subscriber -> {
-            if (!subscriber.isUnsubscribed()) {
-                subscriber.onNext(getVariants(variantGroupId));
-            }
-        });
-    }
-
     public List<Variant> getVariants(long variantGroupId) {
         return Storage.get().getQuery(Variant.class)
                 .withSelection(param(Contract.Variant.GROUP_ID, variantGroupId))
@@ -106,5 +100,25 @@ public class DataQuery {
     public boolean deleteVariants(long variantGroupId) {
         return Storage.get()
                 .delete(Variant.class, param(Contract.Variant.GROUP_ID, variantGroupId)) > 0;
+    }
+
+    public Observable<List<CriteriaGroup>> getCriteriaGroups() {
+        return Storage.get().getObservable(CriteriaGroup.class);
+    }
+
+    public List<Criteria> getCriterias(long criteriaGroupId) {
+        return Storage.get().getQuery(Criteria.class)
+                .withSelection(param(Contract.Criteria.GROUP_ID, criteriaGroupId))
+                .orderBy(Contract.ID)
+                .list();
+    }
+
+    public CriteriaGroup getCriteriaGroup(long criteriaGroupId) {
+        return Storage.get().get(CriteriaGroup.class, criteriaGroupId);
+    }
+
+    public boolean deleteCriterias(long criteriaGroupId) {
+        return Storage.get()
+                .delete(Criteria.class, param(Contract.Criteria.GROUP_ID, criteriaGroupId)) > 0;
     }
 }

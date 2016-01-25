@@ -6,8 +6,9 @@ import android.support.annotation.Nullable;
 import nl.qbusict.cupboard.annotation.Column;
 import tanya.arthur.selectionhelper.data.model.contract.Contract;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
+import tanya.arthur.selectionhelper.view.adapters.choice.NamedItem;
 
-public class CriteriaGroup {
+public class CriteriaGroup implements NamedItem{
     @Column(Contract.ID)
     private Long id;
 

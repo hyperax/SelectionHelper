@@ -18,10 +18,14 @@ public class Criteria {
     @Column(Contract.Criteria.NAME)
     private String name;
 
+    @Column(Contract.Criteria.SORT_ORDER)
+    private int sortOrder;
+
     public Criteria() {
         setId(null);
         setGroupId(0L);
         setName(null);
+        setSortOrder(0);
     }
 
     @Nullable
@@ -54,5 +58,13 @@ public class Criteria {
     public Criteria setName(String name) {
         this.name = name;
         return this;
+    }
+
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public int getSortOrder() {
+        return sortOrder;
     }
 }

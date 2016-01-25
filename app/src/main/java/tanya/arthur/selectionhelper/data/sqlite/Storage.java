@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
+import nl.nl2312.rxcupboard.RxCupboard;
+import nl.nl2312.rxcupboard.RxDatabase;
 import nl.qbusict.cupboard.DatabaseCompartment;
 import rx.Observable;
 
@@ -18,6 +20,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class Storage {
 
     private SQLiteDatabase database;
+    private RxDatabase rxDatabase;
     private DatabaseCompartment dataCompartment;
 
     private static Storage instance;
@@ -27,6 +30,7 @@ public class Storage {
         SQLiteOpenHelper mOpenHelper = new SHSQLiteOpenHelper(context);
         database = mOpenHelper.getWritableDatabase();
         dataCompartment = cupboard().withDatabase(database);
+        rxDatabase = RxCupboard.with(cupboard(), database);
     }
 
     public static void init(Context context) {

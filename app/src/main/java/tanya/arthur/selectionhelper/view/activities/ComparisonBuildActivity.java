@@ -17,6 +17,7 @@ import tanya.arthur.selectionhelper.data.model.ComparisonInfo;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
 import tanya.arthur.selectionhelper.view.fragments.ComparisonCreateFragment;
+import tanya.arthur.selectionhelper.view.fragments.CriteriaGroupsFragment;
 import tanya.arthur.selectionhelper.view.fragments.VariantGroupsFragment;
 import tanya.arthur.selectionhelper.view.notification.Letter;
 
@@ -88,6 +89,10 @@ public class ComparisonBuildActivity extends BaseActivity
         return VariantGroupsFragment.newInstance(comparisonInfo.getVariantGroupId());
     }
 
+    private CriteriaGroupsFragment createCriteriaGroupsFragment() {
+        return CriteriaGroupsFragment.newInstance(comparisonInfo.getCriteriaGroupId());
+    }
+
     private void replaceMainFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
@@ -122,8 +127,8 @@ public class ComparisonBuildActivity extends BaseActivity
         boolean hasBackStack = getSupportFragmentManager().getBackStackEntryCount() > 0
                 || mainFragment.hasBackStack();
         boolean isFinishStep = mainFragment instanceof ComparisonCreateFragment;
-        backButton.setText(hasBackStack? R.string.back : R.string.cancel);
-        nextButton.setText(isFinishStep? R.string.finish : R.string.next);
+        backButton.setText(hasBackStack ? R.string.back : R.string.cancel);
+        nextButton.setText(isFinishStep ? R.string.finish : R.string.next);
     }
 
     private BaseFragment getMainFragment() {
@@ -143,12 +148,19 @@ public class ComparisonBuildActivity extends BaseActivity
 
     @Click(R.id.next)
     void onClickNext() {
-        BaseFragment mainFragment = getMainFragment();
-
-        if (comparisonInfo.getVariantGroupId() > 0) {
-            // TODO move to next fragment
-        } else {
-            showToast(Letter.alert().setText(getString(R.string.setup_variant_group)));
+        Fragment currentFragment = getMainFragment();
+        if (currentFragment instanceof VariantGroupsFragment) {
+            if (comparisonInfo.getVariantGroupId() > 0) {
+                replaceMainFragment(createCriteriaGroupsFragment(), null);
+            } else {
+                showToast(Letter.alert().setText(getString(R.string.setup_variant_group)));
+            }
+        } else if (currentFragment instanceof CriteriaGroupsFragment) {
+            if (comparisonInfo.getCriteriaGroupId() > 0) {
+                // TODO replace to variants quantity fragment
+            } else {
+                showToast(Letter.alert().setText(getString(R.string.setup_critera_group)));
+            }
         }
     }
 }

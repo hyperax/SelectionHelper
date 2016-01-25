@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package tanya.arthur.selectionhelper.view.adapters.helper;
+package tanya.arthur.selectionhelper.view.adapters.touch;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;

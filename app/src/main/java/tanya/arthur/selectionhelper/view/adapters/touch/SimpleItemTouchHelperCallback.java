@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package tanya.arthur.selectionhelper.view.adapters.helper;
+package tanya.arthur.selectionhelper.view.adapters.touch;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.GridLayoutManager;

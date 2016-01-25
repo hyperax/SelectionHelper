@@ -32,6 +32,11 @@
             android:name=".view.activities.VariantGroupActivity_"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".view.activities.CriteriaGroupActivity_"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

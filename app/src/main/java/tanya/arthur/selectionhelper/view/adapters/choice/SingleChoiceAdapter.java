@@ -1,4 +1,4 @@
-package tanya.arthur.selectionhelper.view.adapters;
+package tanya.arthur.selectionhelper.view.adapters.choice;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,16 +13,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import tanya.arthur.selectionhelper.R;
-import tanya.arthur.selectionhelper.data.model.VariantGroup;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 
-public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdapter.ItemViewHolder> {
+public class SingleChoiceAdapter extends RecyclerView.Adapter<SingleChoiceAdapter.ItemViewHolder> {
 
     public interface Callback {
-        void onClick(VariantGroup variantGroup);
+        void onClick(NamedItem item);
     }
 
-    private List<VariantGroup> items = Collections.emptyList();
+    private List<NamedItem> items = Collections.emptyList();
 
     private long selectedItemId;
 
@@ -35,17 +34,17 @@ public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdap
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View root = inflater.inflate(R.layout.item_variant_group, parent, false);
-        return new ItemViewHolder(root, this::onClickVariantGroup);
+        View root = inflater.inflate(R.layout.item_single_choice, parent, false);
+        return new ItemViewHolder(root, this::onClickItem);
     }
 
-    private void onClickVariantGroup(View view) {
-        VariantGroup variantGroup = (VariantGroup) view.getTag();
-        setSelectedVariantGroup(NpeUtils.getNonNull(variantGroup.getId()));
-        NpeUtils.call(listener, Callback.class, cb->cb.onClick(variantGroup));
+    private void onClickItem(View view) {
+        NamedItem item = (NamedItem) view.getTag();
+        setSelectedItem(NpeUtils.getNonNull(item.getId()));
+        NpeUtils.call(listener, Callback.class, cb->cb.onClick(item));
     }
 
-    public void setSelectedVariantGroup(long id) {
+    public void setSelectedItem(long id) {
         if (selectedItemId != id) {
             long prevSelectedItemId = selectedItemId;
             selectedItemId = id;
@@ -54,7 +53,7 @@ public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdap
         }
     }
 
-    public long getSelectedVariantGroup() {
+    public long getSelectedItem() {
         return selectedItemId;
     }
 
@@ -72,11 +71,11 @@ public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdap
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        VariantGroup variantGroup = getItem(position);
-        holder.setItem(variantGroup, NpeUtils.equals(variantGroup.getId(), selectedItemId));
+        NamedItem item = getItem(position);
+        holder.setItem(item, NpeUtils.equals(item.getId(), selectedItemId));
     }
 
-    private VariantGroup getItem(int position) {
+    private NamedItem getItem(int position) {
         return items.get(position);
     }
 
@@ -85,7 +84,7 @@ public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdap
         return items.size();
     }
 
-    public void setItems(List<VariantGroup> items) {
+    public void setItems(List<? extends NamedItem> items) {
         this.items = new ArrayList<>();
         if (!NpeUtils.isEmpty(items)) {
             this.items.addAll(items);
@@ -102,7 +101,7 @@ public class VariantGroupsAdapter extends RecyclerView.Adapter<VariantGroupsAdap
             v.setOnClickListener(clickListener);
         }
 
-        public void setItem(VariantGroup item, boolean isSelected) {
+        public void setItem(NamedItem item, boolean isSelected) {
             this.itemView.setTag(item);
             nameTextView.setText(item.getName());
             nameTextView.setChecked(isSelected);

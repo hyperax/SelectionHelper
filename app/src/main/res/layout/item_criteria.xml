@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin">
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:hint="@string/enter_name"
+        android:inputType="textCapSentences"
+        android:padding="@dimen/offset_small"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Название сравнения 123" />
+
+    <ImageView
+        android:id="@+id/handle"
+        android:layout_width="?listPreferredItemHeight"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/reorder"
+        android:scaleType="center"
+        android:src="@drawable/ic_reorder_24dp"
+        tools:ignore="RtlHardcoded" />
+</LinearLayout>

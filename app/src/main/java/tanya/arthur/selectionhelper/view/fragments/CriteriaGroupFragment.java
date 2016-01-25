@@ -20,26 +20,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tanya.arthur.selectionhelper.R;
-import tanya.arthur.selectionhelper.data.model.Variant;
-import tanya.arthur.selectionhelper.data.model.VariantGroup;
+import tanya.arthur.selectionhelper.data.model.Criteria;
+import tanya.arthur.selectionhelper.data.model.CriteriaGroup;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.helpers.Savable;
-import tanya.arthur.selectionhelper.view.adapters.VariantsAdapter;
+import tanya.arthur.selectionhelper.view.adapters.CriteriasAdapter;
 import tanya.arthur.selectionhelper.view.adapters.touch.SimpleItemTouchHelperCallback;
 import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
 
 @OptionsMenu(R.menu.group)
 @EFragment(R.layout.fragment_group)
-public class VariantGroupFragment extends BaseFragment
-        implements Savable, VariantsAdapter.Callback {
+public class CriteriaGroupFragment extends BaseFragment
+        implements Savable, CriteriasAdapter.Callback {
 
     public interface Callback {
-        void onDone(VariantGroupFragment f, long variantGroupId);
+        void onDone(CriteriaGroupFragment f, long criteriaGroupId);
     }
 
-    private static final String STATE_VARIANTS = "state_variants";
-    private static final String STATE_VARIANT_GROUP_ID = "state_variant_group_id";
-    private static final String STATE_VARIANT_GROUP_NAME = "state_variant_group_name";
+    private static final String STATE_CRITERIAS = "state_criterias";
+    private static final String STATE_CRITERIA_GROUP_ID = "state_criteria_group_id";
+    private static final String STATE_CRITERIA_GROUP_NAME = "state_criteria_group_name";
 
     @ViewById(R.id.recycler_view)
     RecyclerViewEmptySupport recyclerView;
@@ -51,16 +51,16 @@ public class VariantGroupFragment extends BaseFragment
     EditText nameEditText;
 
     @FragmentArg
-    long variantGroupId;
+    long criteriaGroupId;
 
     private ItemTouchHelper itemTouchHelper;
 
-    private VariantsAdapter adapter;
+    private CriteriasAdapter adapter;
 
-    public static VariantGroupFragment newInstance(long variantGroupId) {
-        return VariantGroupFragment_.builder()
-                .titleRes(R.string.variant_group)
-                .variantGroupId(variantGroupId)
+    public static CriteriaGroupFragment newInstance(long criteriaGroupId) {
+        return CriteriaGroupFragment_.builder()
+                .titleRes(R.string.criteria_group)
+                .criteriaGroupId(criteriaGroupId)
                 .build();
     }
 
@@ -73,7 +73,7 @@ public class VariantGroupFragment extends BaseFragment
     private void initViews() {
         Bundle state = restoreSavedState();
         if (state != null) {
-            nameEditText.setText(state.getString(STATE_VARIANT_GROUP_NAME));
+            nameEditText.setText(state.getString(STATE_CRITERIA_GROUP_NAME));
         }
     }
 
@@ -81,10 +81,10 @@ public class VariantGroupFragment extends BaseFragment
     private void setAdapterItems() {
         Bundle state = restoreSavedState();
         if (state != null) {
-            variantGroupId = state.getLong(STATE_VARIANT_GROUP_ID);
-            adapter.setItems((ArrayList <Variant>) state.getSerializable(STATE_VARIANTS));
+            criteriaGroupId = state.getLong(STATE_CRITERIA_GROUP_ID);
+            adapter.setItems((ArrayList <Criteria>) state.getSerializable(STATE_CRITERIAS));
         } else {
-            adapter.setItems(query.getVariants(variantGroupId));
+            adapter.setItems(query.getCriterias(criteriaGroupId));
         }
     }
 
@@ -92,7 +92,7 @@ public class VariantGroupFragment extends BaseFragment
         recyclerView.setEmptyView(emptyTextView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new VariantsAdapter();
+        adapter = new CriteriasAdapter();
         adapter.setListener(this);
         setAdapterItems();
         recyclerView.setAdapter(adapter);
@@ -103,10 +103,10 @@ public class VariantGroupFragment extends BaseFragment
     }
 
     @Click(R.id.fab)
-    void onCreateVariantGroup() {
-        Variant variant = logic.createVariant();
-        variant.setGroupId(variantGroupId);
-        adapter.addItem(variant);
+    void onCreateCriteriaGroup() {
+        Criteria criteria = logic.createCriteria();
+        criteria.setGroupId(criteriaGroupId);
+        adapter.addItem(criteria);
         recyclerView.smoothScrollToPosition(adapter.getItemCount());
         adapter.notifyItemInserted(adapter.getItemCount() - 1);
     }
@@ -114,28 +114,28 @@ public class VariantGroupFragment extends BaseFragment
     @OptionsItem(R.id.action_done)
     void onDone() {
 
-        VariantGroup variantGroup = query.getVariantGroup(variantGroupId);
-        if (variantGroup == null) {
-            variantGroup = logic.createVariantGroup();
+        CriteriaGroup criteriaGroup = query.getCriteriaGroup(criteriaGroupId);
+        if (criteriaGroup == null) {
+            criteriaGroup = logic.createCriteriaGroup();
         }
-        variantGroup.setName(nameEditText.getText().toString());
+        criteriaGroup.setName(nameEditText.getText().toString());
 
-        logic.saveVariantGroup(variantGroup);
-        variantGroupId = NpeUtils.getNonNull(variantGroup.getId());
+        logic.saveCriteriaGroup(criteriaGroup);
+        criteriaGroupId = NpeUtils.getNonNull(criteriaGroup.getId());
 
-        List<Variant> variants = adapter.getItems();
-        int size = variants.size();
+        List<Criteria> criterias = adapter.getItems();
+        int size = criterias.size();
         for (int i = 0; i < size; i++) {
-            variants.get(i).setSortOrder(i);
+            criterias.get(i).setSortOrder(i);
         }
 
-        logic.saveVariants(variantGroupId, variants);
-        NpeUtils.call(getHostParent(), Callback.class, cb -> cb.onDone(this, variantGroupId));
+        logic.saveCriterias(criteriaGroupId, criterias);
+        NpeUtils.call(getHostParent(), Callback.class, cb -> cb.onDone(this, criteriaGroupId));
     }
 
     @Override
-    public void onClick(Variant variant) {
-        // TODO on click variant start to edit it
+    public void onClick(Criteria criteria) {
+        // TODO on click criteria start to edit it
     }
 
     @Override
@@ -147,9 +147,9 @@ public class VariantGroupFragment extends BaseFragment
     @Override
     public Bundle getBundleSaveState() {
         Bundle state = new Bundle();
-        state.putSerializable(STATE_VARIANTS, new ArrayList<>(adapter.getItems()));
-        state.putSerializable(STATE_VARIANT_GROUP_NAME, nameEditText.getText().toString());
-        state.putLong(STATE_VARIANT_GROUP_ID, variantGroupId);
+        state.putSerializable(STATE_CRITERIAS, new ArrayList<>(adapter.getItems()));
+        state.putSerializable(STATE_CRITERIA_GROUP_NAME, nameEditText.getText().toString());
+        state.putLong(STATE_CRITERIA_GROUP_ID, criteriaGroupId);
         return state;
     }
 }

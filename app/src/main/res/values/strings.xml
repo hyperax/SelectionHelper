@@ -20,4 +20,8 @@
     <string name="group_name">Group name</string>
     <string name="reorder">Reorder</string>
     <string name="setup_variant_group">Please select the variant group</string>
+    <string name="criteria_groups">Criteria groups</string>
+    <string name="setup_critera_group">Please select the variant group</string>
+    <string name="criteria_group">Criteria group</string>
+    <string name="new_criteria_group">New criteria group</string>
 </resources>

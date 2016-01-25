@@ -21,4 +21,8 @@
     <string name="group_name">Название набора</string>
     <string name="reorder">Упорядочить</string>
     <string name="setup_variant_group">Пожалуйста, выберите набор вариантов</string>
+    <string name="criteria_groups">Набор критериев</string>
+    <string name="setup_critera_group">Пожалуйста, выберите набор вариантов</string>
+    <string name="criteria_group">Набор критериев</string>
+    <string name="new_criteria_group">Новый набор критериев</string>
 </resources>

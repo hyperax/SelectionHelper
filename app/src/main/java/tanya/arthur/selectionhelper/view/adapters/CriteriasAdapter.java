@@ -1,5 +1,6 @@
 package tanya.arthur.selectionhelper.view.adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,21 +17,21 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import tanya.arthur.selectionhelper.R;
-import tanya.arthur.selectionhelper.data.model.Variant;
+import tanya.arthur.selectionhelper.data.model.Criteria;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.view.adapters.touch.ItemTouchHelperAdapter;
 
-public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemViewHolder>
+public class CriteriasAdapter extends RecyclerView.Adapter<CriteriasAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
     public interface Callback {
-        void onClick(Variant variant);
+        void onClick(Criteria criteria);
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
     }
 
     private int requestFocusPosition = -1;
 
-    private List<Variant> items = Collections.emptyList();
+    private List<Criteria> items = Collections.emptyList();
 
     private Callback listener;
 
@@ -41,10 +42,10 @@ public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemVi
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View root = inflater.inflate(R.layout.item_variant, parent, false);
-        ItemViewHolder holder = new ItemViewHolder(root, this::onClickVariant);
+        View root = inflater.inflate(R.layout.item_criteria, parent, false);
+        ItemViewHolder holder = new ItemViewHolder(root);
 
-        root.setOnClickListener(this::onClickVariant);
+        root.setOnClickListener(this::onClickItem);
 
         holder.handleView.setOnTouchListener((view, event) -> {
             if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
@@ -56,23 +57,23 @@ public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemVi
         return holder;
     }
 
-    private void onClickVariant(View view) {
-        Variant variant = (Variant) view.getTag();
-        NpeUtils.call(listener, Callback.class, cb -> cb.onClick(variant));
+    private void onClickItem(View view) {
+        Criteria criteria = (Criteria) view.getTag();
+        NpeUtils.call(listener, Callback.class, cb -> cb.onClick(criteria));
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        Variant variant = getItem(position);
-        holder.setItem(variant);
-        holder.itemView.setTag(variant);
+        Criteria criteria = getItem(position);
+        holder.setItem(criteria);
+        holder.itemView.setTag(criteria);
         if (position == requestFocusPosition) {
             holder.nameTextView.requestFocus();
             requestFocusPosition = -1;
         }
     }
 
-    private Variant getItem(int position) {
+    private Criteria getItem(int position) {
         return items.get(position);
     }
 
@@ -81,19 +82,20 @@ public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemVi
         return items.size();
     }
 
-    public List<Variant> getItems() {
+    @NonNull
+    public List<Criteria> getItems() {
         return items;
     }
 
-    public void setItems(List<Variant> items) {
+    public void setItems(List<Criteria> items) {
         this.items = new ArrayList<>();
         if (!NpeUtils.isEmpty(items)) {
             this.items.addAll(items);
         }
     }
 
-    public void addItem(Variant variant) {
-        items.add(variant);
+    public void addItem(Criteria criteria) {
+        items.add(criteria);
         requestFocusPosition = getItemCount() - 1;
     }
 
@@ -117,17 +119,17 @@ public class VariantsAdapter extends RecyclerView.Adapter<VariantsAdapter.ItemVi
         @Bind(R.id.handle)
         ImageView handleView;
 
-        public ItemViewHolder(View v, View.OnClickListener cl) {
+        public ItemViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
             nameTextView.setOnFocusChangeListener(
                     (view, hasFocus) -> {
-                        Variant variant = (Variant) itemView.getTag();
-                        variant.setName(nameTextView.getText().toString());
+                        Criteria criteria = (Criteria) itemView.getTag();
+                        criteria.setName(nameTextView.getText().toString());
                     });
         }
 
-        public void setItem(Variant item) {
+        public void setItem(Criteria item) {
             nameTextView.setText(item.getName());
         }
     }
