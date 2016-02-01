@@ -24,4 +24,7 @@
     <string name="setup_critera_group">Please select the variant group</string>
     <string name="criteria_group">Criteria group</string>
     <string name="new_criteria_group">New criteria group</string>
+    <string name="criteria_wieght">Weight</string>
+    <string name="increase_criteria_weight">Increase criteria weight</string>
+    <string name="decrease_criteria_weight">Decrease criteria weight</string>
 </resources>

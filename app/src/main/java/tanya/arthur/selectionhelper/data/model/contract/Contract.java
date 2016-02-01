@@ -8,6 +8,7 @@ public interface Contract {
         String GROUP_ID = "group_id";
         String NAME = "name";
         String SORT_ORDER = "sort_order";
+        String WEIGHT = "weight";
     }
 
     interface CriteriaGroup {

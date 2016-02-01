@@ -25,4 +25,7 @@
     <string name="setup_critera_group">Пожалуйста, выберите набор вариантов</string>
     <string name="criteria_group">Набор критериев</string>
     <string name="new_criteria_group">Новый набор критериев</string>
+    <string name="criteria_wieght">Вес</string>
+    <string name="increase_criteria_weight">Увеличить вес критерия</string>
+    <string name="decrease_criteria_weight">Уменьшить вес критерия</string>
 </resources>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,9 @@ import tanya.arthur.selectionhelper.view.adapters.touch.ItemTouchHelperAdapter;
 
 public class CriteriasAdapter extends RecyclerView.Adapter<CriteriasAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
+
+    public static final int CRITERIA_WEIGHT_MAX = 999;
+    public static final int CRITERIA_WEIGHT_MIN = 1;
 
     public interface Callback {
         void onClick(Criteria criteria);
@@ -44,7 +48,6 @@ public class CriteriasAdapter extends RecyclerView.Adapter<CriteriasAdapter.Item
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View root = inflater.inflate(R.layout.item_criteria, parent, false);
         ItemViewHolder holder = new ItemViewHolder(root);
-
         root.setOnClickListener(this::onClickItem);
 
         holder.handleView.setOnTouchListener((view, event) -> {
@@ -116,8 +119,19 @@ public class CriteriasAdapter extends RecyclerView.Adapter<CriteriasAdapter.Item
         @Bind(R.id.name)
         EditText nameTextView;
 
+        @Bind(R.id.decrease)
+        ImageView decreaseImage;
+
+        @Bind(R.id.weight)
+        TextView weightTextView;
+
+        @Bind(R.id.increase)
+        ImageView increaseImage;
+
         @Bind(R.id.handle)
         ImageView handleView;
+
+        private Criteria criteria;
 
         public ItemViewHolder(View v) {
             super(v);
@@ -127,10 +141,33 @@ public class CriteriasAdapter extends RecyclerView.Adapter<CriteriasAdapter.Item
                         Criteria criteria = (Criteria) itemView.getTag();
                         criteria.setName(nameTextView.getText().toString());
                     });
+            decreaseImage.setOnClickListener(this::onDecrease);
+            increaseImage.setOnClickListener(this::onIncrease);
+            weightTextView.setOnClickListener(this::onIncrease);
+        }
+
+        private void onDecrease(View view) {
+            if (criteria.getWeight() > CRITERIA_WEIGHT_MIN) {
+                criteria.setWeight(criteria.getWeight() - 1);
+                updateWeight();
+            }
+        }
+
+        private void onIncrease(View view) {
+            if (criteria.getWeight() < CRITERIA_WEIGHT_MAX) {
+                criteria.setWeight(criteria.getWeight() + 1);
+                updateWeight();
+            }
         }
 
         public void setItem(Criteria item) {
+            criteria = item;
             nameTextView.setText(item.getName());
+            updateWeight();
+        }
+
+        private void updateWeight() {
+            weightTextView.setText(String.valueOf(criteria.getWeight()));
         }
     }
 }

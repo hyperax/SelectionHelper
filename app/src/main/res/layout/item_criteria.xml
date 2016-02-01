@@ -6,21 +6,73 @@
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/activity_horizontal_margin">
 
-    <EditText
-        android:id="@+id/name"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:hint="@string/enter_name"
-        android:inputType="textCapSentences"
-        android:padding="@dimen/offset_small"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        tools:text="Название сравнения 123" />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:hint="@string/enter_name"
+                android:inputType="textCapSentences"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="Название сравнения 123" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider_transparent"
+            android:gravity="center_vertical"
+            android:showDividers="middle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/criteria_wieght"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageView
+                android:id="@+id/decrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/decrease_criteria_weight"
+                android:src="@drawable/ic_remove_circle_outline_32dp" />
+
+            <TextView
+                android:id="@+id/weight"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:maxLength="3"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="123" />
+
+            <ImageView
+                android:id="@+id/increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="@string/increase_criteria_weight"
+                android:src="@drawable/ic_add_circle_outline_32dp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/handle"

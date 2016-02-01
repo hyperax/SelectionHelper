@@ -21,6 +21,9 @@ public class Criteria {
     @Column(Contract.Criteria.SORT_ORDER)
     private int sortOrder;
 
+    @Column(Contract.Criteria.WEIGHT)
+    private int weight;
+
     public Criteria() {
         setId(null);
         setGroupId(0L);
@@ -60,11 +63,21 @@ public class Criteria {
         return this;
     }
 
-    public void setSortOrder(int sortOrder) {
+    public Criteria setSortOrder(int sortOrder) {
         this.sortOrder = sortOrder;
+        return this;
     }
 
     public int getSortOrder() {
         return sortOrder;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public Criteria setWeight(int weight) {
+        this.weight = weight;
+        return this;
     }
 }
