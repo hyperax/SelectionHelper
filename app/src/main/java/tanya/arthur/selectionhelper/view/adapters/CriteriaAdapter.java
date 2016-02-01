@@ -22,7 +22,7 @@ import tanya.arthur.selectionhelper.data.model.Criteria;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.view.adapters.touch.ItemTouchHelperAdapter;
 
-public class CriteriasAdapter extends RecyclerView.Adapter<CriteriasAdapter.ItemViewHolder>
+public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
     public static final int CRITERIA_WEIGHT_MAX = 999;

@@ -24,14 +24,14 @@ import tanya.arthur.selectionhelper.data.model.Criteria;
 import tanya.arthur.selectionhelper.data.model.CriteriaGroup;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.helpers.Savable;
-import tanya.arthur.selectionhelper.view.adapters.CriteriasAdapter;
+import tanya.arthur.selectionhelper.view.adapters.CriteriaAdapter;
 import tanya.arthur.selectionhelper.view.adapters.touch.SimpleItemTouchHelperCallback;
 import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
 
 @OptionsMenu(R.menu.group)
 @EFragment(R.layout.fragment_group)
 public class CriteriaGroupFragment extends BaseFragment
-        implements Savable, CriteriasAdapter.Callback {
+        implements Savable, CriteriaAdapter.Callback {
 
     public interface Callback {
         void onDone(CriteriaGroupFragment f, long criteriaGroupId);
@@ -55,7 +55,7 @@ public class CriteriaGroupFragment extends BaseFragment
 
     private ItemTouchHelper itemTouchHelper;
 
-    private CriteriasAdapter adapter;
+    private CriteriaAdapter adapter;
 
     public static CriteriaGroupFragment newInstance(long criteriaGroupId) {
         return CriteriaGroupFragment_.builder()
@@ -92,7 +92,7 @@ public class CriteriaGroupFragment extends BaseFragment
         recyclerView.setEmptyView(emptyTextView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new CriteriasAdapter();
+        adapter = new CriteriaAdapter();
         adapter.setListener(this);
         setAdapterItems();
         recyclerView.setAdapter(adapter);

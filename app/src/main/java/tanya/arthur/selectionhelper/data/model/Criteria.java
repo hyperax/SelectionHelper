@@ -3,11 +3,13 @@ package tanya.arthur.selectionhelper.data.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.io.Serializable;
+
 import nl.qbusict.cupboard.annotation.Column;
 import tanya.arthur.selectionhelper.data.model.contract.Contract;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 
-public class Criteria {
+public class Criteria implements Serializable {
 
     @Column(Contract.ID)
     private Long id;

@@ -77,7 +77,8 @@ public class Logic {
     }
 
     public Criteria createCriteria() {
-        return new Criteria();
+        return new Criteria()
+                .setWeight(1);
     }
 
     public CriteriaGroup createCriteriaGroup() {
