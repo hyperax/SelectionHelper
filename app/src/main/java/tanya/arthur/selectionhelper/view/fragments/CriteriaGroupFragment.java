@@ -28,7 +28,7 @@ import tanya.arthur.selectionhelper.view.adapters.CriteriaAdapter;
 import tanya.arthur.selectionhelper.view.adapters.touch.SimpleItemTouchHelperCallback;
 import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
 
-@OptionsMenu(R.menu.group)
+@OptionsMenu(R.menu.confirm_options)
 @EFragment(R.layout.fragment_group)
 public class CriteriaGroupFragment extends BaseFragment
         implements Savable, CriteriaAdapter.Callback {

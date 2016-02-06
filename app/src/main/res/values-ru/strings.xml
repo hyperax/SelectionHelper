@@ -28,4 +28,8 @@
     <string name="criteria_wieght">Вес</string>
     <string name="increase_criteria_weight">Увеличить вес критерия</string>
     <string name="decrease_criteria_weight">Уменьшить вес критерия</string>
+    <string name="error">Ошибка: %1$s</string>
+    <string name="comparison_count_pattern">%1$s варианта(ов). %2$s шагов.</string>
+    <string name="comparison_count">Количество вариантов для сравнения</string>
+    <string name="select_variants_count">Выберите количество вариантов для сравнения на каждом шаге.</string>
 </resources>

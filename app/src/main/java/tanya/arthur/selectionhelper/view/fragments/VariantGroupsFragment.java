@@ -97,7 +97,7 @@ public class VariantGroupsFragment extends DataEventFragment
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onDataLoaded,
-                        error -> showToast(Letter.alert().setText(error.toString())));
+                        error -> showToast(Letter.alert(error.toString())));
     }
 
     private void onDataLoaded(List<? extends NamedItem> variantGroups) {

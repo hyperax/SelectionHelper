@@ -70,7 +70,7 @@ public class ComparisonListFragment extends DataEventFragment implements Compari
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onDataLoaded,
-                        error -> showToast(Letter.alert().setText(error.toString())));
+                        error -> showToast(Letter.alert(error.toString())));
     }
 
     private void onDataLoaded(List<ComparisonInfo> comparisonInfos) {

@@ -71,4 +71,26 @@ public abstract class MathUtils {
     public static int compare(int lhs, int rhs) {
         return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
     }
+
+    public static long binom(int n, int k) {
+        long[][] binomial = new long[n+1][k+1];
+
+        // base cases
+        for (int i = 0; i <= n; i++) {
+            binomial[i][0] = 1;
+        }
+
+        for (int j = 1; j <= k; j++) {
+            binomial[0][j] = 0;
+        }
+
+        // bottom-up dynamic programming
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= k; j++) {
+                binomial[i][j] = binomial[i-1][j-1] + binomial[i-1][j];
+            }
+        }
+
+        return binomial[n][k];
+    }
 }

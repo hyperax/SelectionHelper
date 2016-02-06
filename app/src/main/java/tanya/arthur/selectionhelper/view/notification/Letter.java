@@ -40,12 +40,16 @@ public class Letter implements Serializable {
         return new Letter();
     }
 
-    public static Letter alert() {
-        return new Letter().setType(ALERT);
+    public static Letter alert(String text) {
+        return new Letter().setType(ALERT).setText(text);
     }
 
-    public static Letter confirm() {
-        return new Letter().setType(CONFIRM);
+    public static Letter confirm(String text) {
+        return new Letter().setType(CONFIRM).setText(text);
+    }
+
+    public static Letter info(String text) {
+        return new Letter().setType(INFO).setText(text);
     }
 
     @Type

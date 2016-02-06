@@ -28,7 +28,7 @@ import tanya.arthur.selectionhelper.view.adapters.VariantsAdapter;
 import tanya.arthur.selectionhelper.view.adapters.touch.SimpleItemTouchHelperCallback;
 import tanya.arthur.selectionhelper.view.widgets.RecyclerViewEmptySupport;
 
-@OptionsMenu(R.menu.group)
+@OptionsMenu(R.menu.confirm_options)
 @EFragment(R.layout.fragment_group)
 public class VariantGroupFragment extends BaseFragment
         implements Savable, VariantsAdapter.Callback {

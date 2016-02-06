@@ -3,13 +3,16 @@ package tanya.arthur.selectionhelper.helpers;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,5 +166,48 @@ public class ViewUtils {
 
     public static long extractLong(@Nullable TextView textView) {
         return ConvertUtils.safeParseLong(extractText(textView));
+    }
+
+    public static boolean restoreState(Bundle state, TextView textView) {
+        if (state != null && textView != null) {
+            String key = textView.getClass().getSimpleName() + textView.getId();
+            if (state.containsKey(key)) {
+                textView.setText(state.getString(key));
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void putState(Bundle state, TextView textView) {
+        if (state != null && textView != null) {
+            String key = textView.getClass().getSimpleName() + textView.getId();
+            state.putString(key, textView.getText().toString());
+        }
+    }
+
+    /**
+     * Builds {@link PopupMenu}
+     * @param context Context the popup menu is running in, through which it
+     *        can access the current theme, resources, etc.
+     * @param anchor Anchor view for this popup. The popup will appear below
+     *        the anchor if there is room, or above it if there is not.
+     * @param menu Menu resource id for inflate menu from resources. Can be 0 for ignore inflating
+     * @param enableIcons If flag {@code enableIcons} is true, then popup menu will have been built with icons
+     */
+    public static PopupMenu createPopupMenu(Context context, View anchor, @MenuRes int menu, boolean enableIcons) {
+        PopupMenu popupMenu = new PopupMenu(context, anchor);
+
+        if (menu > 0) {
+            MenuInflater menuInflater = popupMenu.getMenuInflater();
+            menuInflater.inflate(menu, popupMenu.getMenu());
+        }
+
+        if (enableIcons) {
+            enableIconsForPopupMenu(popupMenu);
+        }
+
+        return popupMenu;
     }
 }

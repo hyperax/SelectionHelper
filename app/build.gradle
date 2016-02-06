@@ -8,7 +8,7 @@ def BUILD_TOOLS_VERS = '23.0.2'
 def VERSION_CODE = 1
 def VERSION_NAME = '1.0'
 
-def ANDROID_ANNOTATIONS_VERS = '3.3.2'
+def ANDROID_ANNOTATIONS_VERS = '4.0-SNAPSHOT'
 def SUPPORT_LIB_VERS = '23.1.1'
 def RX_LIFECYCLE_VERS = '0.4.0'
 def LEAK_CANARY_VERS = '1.3.1'
@@ -50,8 +50,8 @@ android {
 
 apt {
     arguments {
-        androidManifestFile variant.outputs.collect()[0].processResources.manifestFile
         resourcePackageName APP_ID
+        library 'true'
     }
 }
 
@@ -98,4 +98,7 @@ dependencies {
     // eventbus
     compile "de.greenrobot:eventbus:$EVENTBUS_VERS"
     provided "de.greenrobot:eventbus-annotation-processor:$EVENTBUS_VERS"
+
+    // combinatorics
+    compile 'com.googlecode.combinatoricslib:combinatoricslib:2.1'
 }

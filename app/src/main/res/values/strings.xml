@@ -27,4 +27,8 @@
     <string name="criteria_wieght">Weight</string>
     <string name="increase_criteria_weight">Increase criteria weight</string>
     <string name="decrease_criteria_weight">Decrease criteria weight</string>
+    <string name="error">Error: %1$s</string>
+    <string name="comparison_count_pattern">%1$s variants. %2$s steps</string>
+    <string name="comparison_count">The number of variants for comparison</string>
+    <string name="select_variants_count">Select the number of variants to compare at each step.</string>
 </resources>

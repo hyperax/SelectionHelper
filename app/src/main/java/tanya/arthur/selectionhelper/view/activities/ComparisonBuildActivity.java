@@ -16,6 +16,7 @@ import tanya.arthur.selectionhelper.R;
 import tanya.arthur.selectionhelper.data.model.ComparisonInfo;
 import tanya.arthur.selectionhelper.helpers.NpeUtils;
 import tanya.arthur.selectionhelper.view.fragments.BaseFragment;
+import tanya.arthur.selectionhelper.view.fragments.CombinationsSelectionFragment;
 import tanya.arthur.selectionhelper.view.fragments.ComparisonCreateFragment;
 import tanya.arthur.selectionhelper.view.fragments.CriteriaGroupsFragment;
 import tanya.arthur.selectionhelper.view.fragments.VariantGroupsFragment;
@@ -23,8 +24,12 @@ import tanya.arthur.selectionhelper.view.notification.Letter;
 
 @EActivity
 public class ComparisonBuildActivity extends BaseActivity
-        implements VariantGroupsFragment.Callback {
+        implements VariantGroupsFragment.Callback,
+        CriteriaGroupsFragment.Callback,
+        CombinationsSelectionFragment.Callback {
 
+    public static final int MIN_COMPARISON_VARIANTS_COUNT = 1;
+    public static final int MAX_COMPARISON_VARIANTS_COUNT = 7;
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
@@ -37,6 +42,9 @@ public class ComparisonBuildActivity extends BaseActivity
     @Extra
     @InstanceState
     long comparisonInfoId;
+
+    @InstanceState
+    int comparisonCount;
 
     private ComparisonInfo comparisonInfo;
 
@@ -61,7 +69,7 @@ public class ComparisonBuildActivity extends BaseActivity
             if (logic.saveComparisonInfo(comparisonInfo)) {
                 comparisonInfoId = NpeUtils.getNonNull(comparisonInfo.getId());
             } else {
-                showToast(Letter.alert().setText(getString(R.string.unable_create_comparison)));
+                showToast(Letter.alert(getString(R.string.unable_create_comparison)));
                 finish();
             }
         } else {
@@ -141,6 +149,12 @@ public class ComparisonBuildActivity extends BaseActivity
         logic.saveComparisonInfo(comparisonInfo);
     }
 
+    @Override
+    public void onClickCriteriaGroup(CriteriaGroupsFragment f, long criteriaGroupId) {
+        comparisonInfo.setCriteriaGroupId(criteriaGroupId);
+        logic.saveComparisonInfo(comparisonInfo);
+    }
+
     @Click(R.id.back)
     void onClickBack() {
         onBackPressed();
@@ -153,14 +167,28 @@ public class ComparisonBuildActivity extends BaseActivity
             if (comparisonInfo.getVariantGroupId() > 0) {
                 replaceMainFragment(createCriteriaGroupsFragment(), null);
             } else {
-                showToast(Letter.alert().setText(getString(R.string.setup_variant_group)));
+                showToast(Letter.alert(getString(R.string.setup_variant_group)));
             }
         } else if (currentFragment instanceof CriteriaGroupsFragment) {
             if (comparisonInfo.getCriteriaGroupId() > 0) {
-                // TODO replace to variants quantity fragment
+                replaceMainFragment(createComparisonDetailsFragment(), null);
             } else {
-                showToast(Letter.alert().setText(getString(R.string.setup_critera_group)));
+                showToast(Letter.alert(getString(R.string.setup_critera_group)));
             }
         }
+    }
+
+    private Fragment createComparisonDetailsFragment() {
+        int variantsCount = query.getVariants(comparisonInfo.getVariantGroupId()).size();
+        return CombinationsSelectionFragment.newInstance(variantsCount,
+                comparisonCount,
+                MIN_COMPARISON_VARIANTS_COUNT,
+                MAX_COMPARISON_VARIANTS_COUNT);
+    }
+
+    @Override
+    public void onCountChanged(CombinationsSelectionFragment f, int count) {
+        // TODO update finish button
+        comparisonCount = count;
     }
 }
